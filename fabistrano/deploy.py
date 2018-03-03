@@ -79,7 +79,7 @@ def update_code():
 def symlink():
     """Updates the symlink to the most recently deployed version"""
     for dir in env.linked_dirs:
-        run("ln -nfs %(shared_path)s/%(dir) %(current_release)s/%(dir)" % { 'shared_path':env.shared_path, 'current_release':env.current_release, dir:dir })
+        run("ln -nfs %(shared_path)s/%(dir)s %(current_release)s/%(dir)s" % { 'shared_path':env.shared_path, 'current_release':env.current_release, 'dir':dir })
 
 @with_defaults
 def set_current():
