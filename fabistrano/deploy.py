@@ -38,7 +38,7 @@ def permissions():
 def setup():
     """Prepares one or more servers for deployment"""
     sudo_run("mkdir -p %(domain_path)s/{releases,shared}" % { 'domain_path':env.domain_path })
-    sudo_run("mkdir -p %(shared_path)s/{system,log}" % { 'shared_path':env.shared_path })
+    sudo_run("mkdir -p %(shared_path)s/{%(dirs)s}" % { 'shared_path':env.shared_path, 'dirs': ','.join(env.linked_dirs) })
     permissions()
 
 @with_defaults
@@ -70,7 +70,8 @@ def update_code():
 @with_defaults
 def symlink():
     """Updates the symlink to the most recently deployed version"""
-    run("ln -nfs %(shared_path)s/log %(current_release)s/log" % { 'shared_path':env.shared_path, 'current_release':env.current_release })
+    for dir in env.linked_dirs:
+        run("ln -nfs %(shared_path)s/%(dir) %(current_release)s/%(dir)" % { 'shared_path':env.shared_path, 'current_release':env.current_release, dir:dir })
 
 @with_defaults
 def set_current():
