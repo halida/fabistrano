@@ -46,9 +46,17 @@ def checkout():
     """Checkout code to the remote servers"""
     from time import time
     env.current_release = "%(releases_path)s/%(time).0f" % { 'releases_path':env.releases_path, 'time':time() }
-    run("cd %(releases_path)s; git clone -b %(git_branch)s -q %(git_clone)s %(current_release)s" % \
-        { 'releases_path':env.releases_path,
+    run("mkdir -p %(repo_path)s" % { 'repo_path':env.repo_path })
+    run("[ -d %(repo_path)s ] || git clone --mirror %(git_clone)s %(repo_path)s" % \
+        { 'repo_path':env.repo_path,
           'git_clone':env.git_clone,
+        })
+
+    run("cd %(repo_path)s; git remote update " % \
+            { 'repo_path':env.repo_path })
+    run("cd %(releases_path)s; git clone -b %(git_branch)s -q %(repo_path)s %(current_release)s" % \
+        { 'releases_path':env.releases_path,
+          'repo_path':env.repo_path,
           'current_release':env.current_release,
           'git_branch':env.git_branch })
 

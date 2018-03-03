@@ -28,6 +28,8 @@ def with_defaults(func):
                                         { 'domain_path':env.domain_path })
         env.setdefault('shared_path', "%(domain_path)s/shared" % \
                                       { 'domain_path':env.domain_path })
+        env.setdefault('repo_path', "%(domain_path)s/repo" % \
+                                      { 'domain_path':env.domain_path })
         env.setdefault('linked_dirs', ['log'])
         if not 'releases' in env:
             if dir_exists(env.releases_path):
