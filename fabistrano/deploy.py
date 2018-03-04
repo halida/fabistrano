@@ -46,14 +46,13 @@ def checkout():
     """Checkout code to the remote servers"""
     from time import time
     env.current_release = "%(releases_path)s/%(time).0f" % { 'releases_path':env.releases_path, 'time':time() }
-    run("mkdir -p %(repo_path)s" % { 'repo_path':env.repo_path })
     run("[ -d %(repo_path)s ] || git clone --mirror %(git_clone)s %(repo_path)s" % \
         { 'repo_path':env.repo_path,
           'git_clone':env.git_clone,
         })
 
-    run("cd %(repo_path)s; git remote update " % \
-            { 'repo_path':env.repo_path })
+    # run("cd %(repo_path)s; git remote update " % \
+    #         { 'repo_path':env.repo_path })
     run("cd %(releases_path)s; git clone -b %(git_branch)s -q %(repo_path)s %(current_release)s" % \
         { 'releases_path':env.releases_path,
           'repo_path':env.repo_path,
@@ -80,6 +79,8 @@ def symlink():
     """Updates the symlink to the most recently deployed version"""
     for dir in env.linked_dirs:
         run("ln -nfs %(shared_path)s/%(dir)s %(current_release)s/%(dir)s" % { 'shared_path':env.shared_path, 'current_release':env.current_release, 'dir':dir })
+    for file in env.linked_files:
+        run("ln -nfs %(shared_path)s/%(file)s %(current_release)s/%(file)s" % { 'shared_path':env.shared_path, 'current_release':env.current_release, 'file':file })
 
 @with_defaults
 def set_current():

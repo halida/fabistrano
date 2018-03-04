@@ -31,6 +31,7 @@ def with_defaults(func):
         env.setdefault('repo_path', "%(domain_path)s/repo" % \
                                       { 'domain_path':env.domain_path })
         env.setdefault('linked_dirs', ['log'])
+        env.setdefault('linked_files', [])
         if not 'releases' in env:
             if dir_exists(env.releases_path):
                 env.releases = sorted(run('ls -x %(releases_path)s' % { 'releases_path':env.releases_path }).split())
