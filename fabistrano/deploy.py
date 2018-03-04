@@ -20,7 +20,9 @@ def restart():
                   'wsgi_path': env.wsgi_path })
     except AttributeError:
         try:
-            sudo_run(env.restart_cmd)
+            sudo_run("cd %(current_release)s && %(cmd)s" % \
+                     { 'current_release': env.current_release,
+                       'cmd': env.restart_cmd })
         except AttributeError:
             pass
 
