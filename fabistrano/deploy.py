@@ -53,8 +53,8 @@ def checkout():
           'git_clone':env.git_clone,
         })
 
-    # run("cd %(repo_path)s; git remote update " % \
-    #         { 'repo_path':env.repo_path })
+    run("cd %(repo_path)s; git remote update " % \
+            { 'repo_path':env.repo_path })
     run("cd %(releases_path)s; git clone -b %(git_branch)s -q %(repo_path)s %(current_release)s" % \
         { 'releases_path':env.releases_path,
           'repo_path':env.repo_path,
