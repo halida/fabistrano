@@ -60,6 +60,11 @@ def checkout():
           'repo_path':env.repo_path,
           'current_release':env.current_release,
           'git_branch':env.git_branch })
+    run("cd %(current_release)s; echo `cd %(repo_path)s && git rev-parse --short -b %(git_branch)s` > VERSION" % \
+        { 'repo_path':env.repo_path,
+          'current_release':env.current_release,
+          'git_branch':env.git_branch })
+
 
 @task
 def update():
